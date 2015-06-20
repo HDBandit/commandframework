@@ -23,7 +23,7 @@ public class ErrorHandlingMappingBuilder {
     }
 
     public ErrorHandlingMappingBuilder addErrorHandler(ErrorHandler errorHandler) {
-        errorMapping.put(errorType, errorHandler);
+        errorMapping.put(null, errorHandler);
         return this;
     }
 

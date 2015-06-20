@@ -28,7 +28,8 @@ public class Demo {
                                                     .build();
 
 
-
+        SimpleCommandRepository<IncubatorCommandId> commandRepository = new SimpleCommandRepository<IncubatorCommandId>();
+        commandRepository.addCommand(IncubatorCommandId.HOME, recoverableHomeCommand);
 
     }
 
