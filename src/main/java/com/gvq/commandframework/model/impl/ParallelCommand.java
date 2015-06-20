@@ -33,13 +33,15 @@ public class ParallelCommand extends MultiCommand {
             getExecutorService().execute(futureTask);
         }
 
+        int i = 0;
         for (FutureTask futureTask: futureTasks) {
             try {
                 futureTask.get();
+                i++;
             } catch (InterruptedException e) {
                 throw new ExecutionCommandException("Unexpected error", e);
             } catch (ExecutionException e) {
-                throw new ExecutionCommandException(e);
+                throw new ExecutionCommandException(String.format("Error running command: %s", commands.get(i)), e);
             }
         }
     }
@@ -49,6 +51,9 @@ public class ParallelCommand extends MultiCommand {
     }
 
     public void setExecutorService(ExecutorService executorService) {
+        if (executorService == null) {
+            throw new NullPointerException("Executor service cannot be null");
+        }
         this.executorService = executorService;
     }
 }
