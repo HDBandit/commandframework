@@ -62,4 +62,30 @@ public class CommandSequenceTest {
         inOrder.verify(command2, times(1)).execute(commandParams);
     }
 
+    @Test(expected = ExecutionCommandException.class)
+    public void test_when_execute_command_sequence_that_throws_an_exception_then_exception_is_propagated() throws ExecutionCommandException {
+        Command command1 = mock(Command.class);
+        Command command2 = mock(Command.class);
+        Command command3 = mock(Command.class);
+        Command command4 = mock(Command.class);
+
+        CommandParams commandParams = HashCommandParamsBuilder.newBuilder().build();
+        try {
+            doThrow(ExecutionCommandException.class).when(command3).execute(commandParams);
+
+            CommandSequence sut = new CommandSequence();
+            sut.setCommands(Arrays.asList(command4, command3, command1, command2));
+            sut.execute(commandParams);
+        } catch (ExecutionCommandException e) {
+            InOrder inOrder = inOrder(command1, command2, command3, command4);
+            inOrder.verify(command4, times(1)).execute(commandParams);
+            inOrder.verify(command3, times(1)).execute(commandParams);
+            inOrder.verify(command1, times(0)).execute(commandParams);
+            inOrder.verify(command2, times(0)).execute(commandParams);
+
+            throw e;
+        }
+
+    }
+
 }
