@@ -7,6 +7,8 @@ import com.gvq.commandframework.model.impl.CommandSequence;
 import com.gvq.commandframework.model.impl.HashCommandParamsBuilder;
 import org.junit.Test;
 import org.mockito.InOrder;
+import org.mockito.exceptions.verification.VerificationInOrderFailure;
+
 import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
@@ -23,25 +25,41 @@ public class CommandSequenceTest {
     }
 
     @Test
-    public void test_when_execute_command_sequence_then_the_order_execution_is_sequential() throws ExecutionCommandException {
+    public void test_when_execute_command_sequence_then_order_execution_is_ok() throws ExecutionCommandException {
         Command command1 = mock(Command.class);
         Command command2 = mock(Command.class);
+        Command command3 = mock(Command.class);
+        Command command4 = mock(Command.class);
 
         CommandParams commandParams = HashCommandParamsBuilder.newBuilder().build();
         CommandSequence sut = new CommandSequence();
-        sut.setCommands(Arrays.asList(command1, command2));
-        sut.execute(commandParams);
-        sut.setCommands(Arrays.asList(command2, command1));
+        sut.setCommands(Arrays.asList(command3, command4, command1, command2));
         sut.execute(commandParams);
 
-        verify(command1, times(2)).execute(commandParams);
-        verify(command2, times(2)).execute(commandParams);
+        InOrder inOrder = inOrder(command1, command2, command3, command4);
+        inOrder.verify(command3, times(1)).execute(commandParams);
+        inOrder.verify(command4, times(1)).execute(commandParams);
+        inOrder.verify(command1, times(1)).execute(commandParams);
+        inOrder.verify(command2, times(1)).execute(commandParams);
+    }
 
-        InOrder inOrder = inOrder(command1, command2);
-        inOrder.verify(command1, times(2)).execute(commandParams);
-        inOrder.verify(command2, times(2)).execute(commandParams);
-        inOrder.verify(command2).execute(commandParams);
-        inOrder.verify(command1).execute(commandParams);
+    @Test(expected = VerificationInOrderFailure.class)
+    public void test_when_execute_command_sequence_then_order_execution_is_ko() throws ExecutionCommandException {
+        Command command1 = mock(Command.class);
+        Command command2 = mock(Command.class);
+        Command command3 = mock(Command.class);
+        Command command4 = mock(Command.class);
+
+        CommandParams commandParams = HashCommandParamsBuilder.newBuilder().build();
+        CommandSequence sut = new CommandSequence();
+        sut.setCommands(Arrays.asList(command3, command4, command1, command2));
+        sut.execute(commandParams);
+
+        InOrder inOrder = inOrder(command1, command2, command3, command4);
+        inOrder.verify(command1, times(1)).execute(commandParams);
+        inOrder.verify(command4, times(1)).execute(commandParams);
+        inOrder.verify(command1, times(1)).execute(commandParams);
+        inOrder.verify(command2, times(1)).execute(commandParams);
     }
 
 }

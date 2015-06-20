@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class HashCommandParams implements CommandParams {
 
-    private Map<String, Object> params = new HashMap<String, Object>();
+    private Map<String, Object> params;
 
     public HashCommandParams(Map<String, Object> params) {
         setParams(params);

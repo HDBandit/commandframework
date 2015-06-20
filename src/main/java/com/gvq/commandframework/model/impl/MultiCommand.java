@@ -10,7 +10,7 @@ import java.util.List;
  */
 public abstract class MultiCommand implements Command {
 
-    protected List<Command> commands = new ArrayList<Command>();
+    protected List<Command> commands;
 
     public List<Command> getCommands() {
         return commands;
