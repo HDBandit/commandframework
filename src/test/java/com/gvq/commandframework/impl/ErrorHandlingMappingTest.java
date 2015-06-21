@@ -6,7 +6,6 @@ import com.gvq.commandframework.model.Command;
 import com.gvq.commandframework.model.CommandParams;
 import com.gvq.commandframework.model.ErrorHandler;
 import com.gvq.commandframework.model.impl.ErrorHandlingMapping;
-import com.gvq.commandframework.model.impl.HashCommandParams;
 import com.gvq.commandframework.model.impl.HashCommandParamsBuilder;
 import org.junit.Test;
 import org.mockito.Mockito;

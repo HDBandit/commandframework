@@ -1,11 +1,12 @@
 package com.gvq.commandframework.impl;
 
 import com.gvq.commandframework.model.impl.HashCommandParams;
-import static org.junit.Assert.*;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.Assert.*;
 
 /**
  * Created by gerard on 21/6/15.

@@ -9,9 +9,9 @@ import org.junit.Test;
 import org.mockito.InOrder;
 import org.mockito.exceptions.verification.VerificationInOrderFailure;
 
-import static org.mockito.Mockito.*;
-
 import java.util.Arrays;
+
+import static org.mockito.Mockito.*;
 
 /**
  * Created by gerard on 20/6/15.

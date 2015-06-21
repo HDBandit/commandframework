@@ -1,6 +1,5 @@
 package com.gvq.commandframework.model.impl;
 
-import com.gvq.commandframework.exception.CommandException;
 import com.gvq.commandframework.exception.ExecutionCommandException;
 import com.gvq.commandframework.model.ErrorHandler;
 
