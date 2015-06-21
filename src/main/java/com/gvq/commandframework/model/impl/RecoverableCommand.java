@@ -23,7 +23,11 @@ public class RecoverableCommand extends CommandDecorator {
                 isDone = true;
             } catch (ExecutionCommandException e) {
                 availableRetries--;
-                errorHandler.resolve(e, this, commandParams);
+                if (availableRetries > 0) {
+                    errorHandler.resolve(e, this, commandParams);
+                } else {
+                    throw e;
+                }
             }
         } while (!isDone && availableRetries > 0);
     }
