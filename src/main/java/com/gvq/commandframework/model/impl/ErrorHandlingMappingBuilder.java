@@ -3,6 +3,8 @@ package com.gvq.commandframework.model.impl;
 import com.gvq.commandframework.exception.ExecutionCommandException;
 import com.gvq.commandframework.model.ErrorHandler;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +24,25 @@ public class ErrorHandlingMappingBuilder {
     }
 
     public ErrorHandlingMappingBuilder addErrorHandler(ErrorHandler errorHandler) {
-        errorMapping.put(null, errorHandler);
+        Type[] types = errorHandler.getClass().getGenericInterfaces();
+        String className = null;
+        for (Type type : types) {
+            if (type instanceof ParameterizedType) {
+                ParameterizedType parameterizedType = (ParameterizedType) type;
+                Type rawType = parameterizedType.getRawType();
+
+                if (ErrorHandler.class.getTypeName().equals(rawType.getTypeName())) {
+                    className = parameterizedType.getActualTypeArguments()[0].getTypeName();
+                    break;
+                }
+            }
+        }
+
+        try {
+            errorMapping.put((Class<? extends ExecutionCommandException>)Class.forName(className), errorHandler);
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException("Unexpected error", e);
+        }
         return this;
     }
 
