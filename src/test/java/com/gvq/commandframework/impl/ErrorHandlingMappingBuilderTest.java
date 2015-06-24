@@ -36,6 +36,10 @@ public class ErrorHandlingMappingBuilderTest {
         }
     }
 
+    private class MyExecutionCommandException extends ExecutionCommandException {
+
+    }
+
     @Test(expected = NullPointerException.class)
     public void test_when_adding_null_error_handler_then_exception_is_thrown(){
         ErrorHandlingMappingBuilder.newBuilder().addErrorHandler(null).build();
@@ -59,5 +63,6 @@ public class ErrorHandlingMappingBuilderTest {
         Assert.assertTrue(errorHandlingMapping.getErrorMapping().containsKey(ExecutionCommandException.class));
         Assert.assertTrue(errorHandlingMapping.getErrorMapping().containsKey(TimeoutCommandException.class));
         Assert.assertTrue(errorHandlingMapping.getErrorMapping().containsKey(ErrorHandlerCommandException.class));
+        Assert.assertFalse(errorHandlingMapping.getErrorMapping().containsKey(MyExecutionCommandException.class));
     }
 }
