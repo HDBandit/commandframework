@@ -6,7 +6,7 @@
 
     <groupId>com.gvq</groupId>
     <artifactId>commandframework</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <dependencies>
         <dependency>
@@ -22,5 +22,12 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>bintray-hdbandit-maven</id>
+            <url>https://api.bintray.com/maven/hdbandit/maven/commandframework/;publish=1</url>
+        </repository>
+    </distributionManagement>
 
 </project>
